@@ -11,39 +11,53 @@
         height: 100%;
         background: black;
         overflow: hidden;
+        cursor: pointer;
     }
+
+    #overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 24px;
+        z-index: 10;
+    }
+
     iframe {
         width: 100vw;
         height: 100vh;
         border: none;
+        display: none;
     }
 </style>
 </head>
 <body>
+
+<div id="overlay">Click to start</div>
+
 <iframe
     id="player"
     src="https://www.youtube.com/embed/oMe_gweEUPk?autoplay=1&controls=0&rel=0&playsinline=1&enablejsapi=1"
     allow="autoplay; fullscreen"
 ></iframe>
+
 <script>
+const overlay = document.getElementById("overlay");
 const iframe = document.getElementById("player");
 
-// Request fullscreen on load
-function requestFullscreen() {
-    if (iframe.requestFullscreen) {
-        iframe.requestFullscreen();
-    } else if (iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
-    } else if (iframe.msRequestFullscreen) {
-        iframe.msRequestFullscreen();
-    }
-}
+overlay.addEventListener("click", () => {
+    overlay.style.display = "none";
+    iframe.style.display = "block";
 
-// Try immediately
-requestFullscreen();
-
-// Also try after a short delay in case the iframe needs to load first
-setTimeout(requestFullscreen, 500);
+    // Request fullscreen
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
+});
 </script>
+
 </body>
 </html>
