@@ -2,40 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>YouTube Auto Loop</title>
+<title>Autoplay YouTube Fullscreen</title>
 <style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    overflow: hidden;
-}
-
-iframe {
-    width: 100vw;
-    height: 100vh;
-    border: none;
-}
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        overflow: hidden;
+    }
+    iframe {
+        width: 100vw;
+        height: 100vh;
+        border: none;
+    }
 </style>
 </head>
 <body>
-
 <iframe
-    src="https://www.youtube.com/embed/oMe_gweEUPk?autoplay=1&mute=0&controls=0&loop=1&playlist=VIDEO_ID&rel=0&playsinline=1"
-    allow="autoplay"
+    id="player"
+    src="https://www.youtube.com/embed/oMe_gweEUPk?autoplay=1&controls=0&rel=0&playsinline=1&enablejsapi=1"
+    allow="autoplay; fullscreen"
 ></iframe>
-
-    <script>
-const overlay = document.getElementById("overlay");
+<script>
 const iframe = document.getElementById("player");
 
-    if (iframe.requestFullscreen) iframe.requestFullscreen();
-    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
-});
-</script>
+// Request fullscreen on load
+function requestFullscreen() {
+    if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+    } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+    } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+    }
+}
 
+// Try immediately
+requestFullscreen();
+
+// Also try after a short delay in case the iframe needs to load first
+setTimeout(requestFullscreen, 500);
+</script>
 </body>
 </html>
